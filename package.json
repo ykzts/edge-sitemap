@@ -20,7 +20,8 @@
     "node": ">=18.12.0"
   },
   "files": [
-    "src"
+    "src/index.d.ts",
+    "src/index.js"
   ],
   "homepage": "https://github.com/ykzts/edge-sitemap#readme",
   "keywords": [
