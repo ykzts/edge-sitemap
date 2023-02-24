@@ -6,7 +6,6 @@
   },
   "description": "Generator of Sitemaps using web standard technology for operation in Edge Computing.",
   "devDependencies": {
-    "@edge-runtime/jest-environment": "^2.0.5",
     "@jest/globals": "^29.4.3",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",

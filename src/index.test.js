@@ -42,7 +42,7 @@ async function readableStreamToString(readableStream) {
   return result
 }
 
-test('basic use case', async () => {
+test('basic use case', () => {
   const { readable, writable } = new SitemapStream({
     baseURL: 'https://example.com/',
   })
@@ -61,10 +61,10 @@ test('basic use case', async () => {
     writable
   )
 
-  expect(readableStreamToString(readable)).toMatchSnapshot()
+  return expect(readableStreamToString(readable)).resolves.toMatchSnapshot()
 })
 
-test('pretty results', async () => {
+test('pretty results', () => {
   const { readable, writable } = new SitemapStream({
     baseURL: 'https://example.com/',
     pretty: true,
@@ -84,5 +84,5 @@ test('pretty results', async () => {
     writable
   )
 
-  expect(readableStreamToString(readable)).toMatchSnapshot()
+  return expect(readableStreamToString(readable)).resolves.toMatchSnapshot()
 })

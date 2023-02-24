@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`basic use case 1`] = `Promise {}`;
+exports[`basic use case 1`] = `
+"<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://example.com/</loc><priority>1.0</priority></url><url><loc>https://example.com/privacy</loc><priority>0.1</priority></url></urlset>"
+`;
 
-exports[`pretty results 1`] = `Promise {}`;
+exports[`pretty results 1`] = `
+"<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://example.com/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://example.com/privacy</loc>
+    <priority>0.1</priority>
+  </url>
+</urlset>
+"
+`;
