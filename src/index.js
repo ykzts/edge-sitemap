@@ -11,6 +11,91 @@
  */
 
 /**
+ * @typedef {Object} SitemapTransformerOptions
+ * @property {(URL|string)=} baseURL
+ * @property {boolean=} pretty
+ */
+
+/**
+ * @implements {Transformer<SitemapItem, string>}
+ */
+export class SitemapTransformer {
+  /** @type {(URL|string)=} */
+  #baseURL
+  /** @type {string} */
+  #lf
+  /** @type {string} */
+  #indent
+
+  /**
+   * @param {SitemapStreamOptions=} options
+   */
+  constructor({ baseURL, pretty = false } = {}) {
+    this.#baseURL = baseURL
+    this.#lf = pretty ? '\n' : ''
+    this.#indent = pretty ? '  ' : ''
+  }
+
+  /** @type {TransformerFlushCallback<string>} */
+  flush(controller) {
+    controller.enqueue(`</urlset>${this.#lf}`)
+  }
+
+  /** @type {TransformerStartCallback<string>} */
+  start(controller) {
+    controller.enqueue('<?xml version="1.0" encoding="UTF-8"?>\n')
+    controller.enqueue(
+      `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${this.#lf}`
+    )
+  }
+
+  /** @type {TransformerTransformCallback<SitemapItem, string>} */
+  transform(chunk, controller) {
+    /** @type {URL} */
+    let url
+    try {
+      url = new URL(chunk.loc, this.#baseURL)
+    } catch (error) {
+      controller.error(error)
+
+      return
+    }
+
+    controller.enqueue(`${this.#indent}<url>${this.#lf}`)
+
+    if (chunk.changefreq) {
+      controller.enqueue(
+        `${this.#indent.repeat(2)}<changefreq>${chunk.changefreq}</changefreq>${
+          this.#lf
+        }`
+      )
+    }
+
+    if (chunk.lastmod) {
+      controller.enqueue(
+        `${this.#indent.repeat(2)}<lastmod>${chunk.lastmod}</lastmod>${
+          this.#lf
+        }`
+      )
+    }
+
+    controller.enqueue(
+      `${this.#indent.repeat(2)}<loc>${url.toString()}</loc>${this.#lf}`
+    )
+
+    if (chunk.priority) {
+      const priority = chunk.priority.toFixed(1)
+
+      controller.enqueue(
+        `${this.#indent.repeat(2)}<priority>${priority}</priority>${this.#lf}`
+      )
+    }
+
+    controller.enqueue(`${this.#indent}</url>${this.#lf}`)
+  }
+}
+
+/**
  * @typedef {Object} SitemapStreamOptions
  * @property {(URL|string)=} baseURL
  * @property {boolean=} pretty
@@ -24,54 +109,6 @@ export class SitemapStream extends TransformStream {
    * @param {SitemapStreamOptions=} options
    */
   constructor({ baseURL, pretty = false } = {}) {
-    const lf = pretty ? '\n' : ''
-
-    super({
-      flush(controller) {
-        controller.enqueue(`</urlset>${lf}`)
-      },
-      start(controller) {
-        controller.enqueue('<?xml version="1.0" encoding="UTF-8"?>\n')
-        controller.enqueue(
-          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${lf}`
-        )
-      },
-      transform(chunk, controller) {
-        const indent = pretty ? '  ' : ''
-
-        controller.enqueue(`${indent}<url>${lf}`)
-
-        if (chunk.changefreq) {
-          controller.enqueue(
-            `${indent.repeat(2)}<changefreq>${
-              chunk.changefreq
-            }</changefreq>${lf}`
-          )
-        }
-
-        if (chunk.lastmod) {
-          controller.enqueue(
-            `${indent.repeat(2)}<lastmod>${chunk.lastmod}</lastmod>${lf}`
-          )
-        }
-
-        controller.enqueue(
-          `${indent.repeat(2)}<loc>${new URL(
-            chunk.loc,
-            baseURL
-          ).toString()}</loc>${lf}`
-        )
-
-        if (chunk.priority) {
-          controller.enqueue(
-            `${indent.repeat(2)}<priority>${chunk.priority.toFixed(
-              1
-            )}</priority>${lf}`
-          )
-        }
-
-        controller.enqueue(`${indent}</url>${lf}`)
-      },
-    })
+    super(new SitemapTransformer({ baseURL, pretty }))
   }
 }
