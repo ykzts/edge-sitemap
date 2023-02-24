@@ -16,6 +16,7 @@ jobs:
         with:
           cache: pnpm
           node-version: 18.x
+          registry-url: https://registry.npmjs.org
       - run: pnpm install
       - run: pnpm publish --no-git-checks
         env:
