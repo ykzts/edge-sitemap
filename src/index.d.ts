@@ -14,6 +14,21 @@ export interface SitemapItem {
   priority?: number
 }
 
+export interface SitemapTransformerOptions {
+  baseURL?: URL | string
+  pretty?: boolean
+}
+
+export class SitemapTransformer implements Transformer<SitemapItem, string> {
+  constructor(options?: SitemapTransformerOptions)
+  flush(controller: TransformerStartCallback<string>): void
+  start(controller: TransformerStartCallback<string>): void
+  transform(
+    chunk: SitemapItem,
+    controller: TransformerStartCallback<string>
+  ): void
+}
+
 export interface SitemapStreamOptions {
   baseURL?: URL | string
   pretty?: boolean
