@@ -1,0 +1,31 @@
+{
+  "author": {
+    "email": "ykzts@desire.sh",
+    "name": "Yamagishi Kazutoshi",
+    "url": "https://ykzts.com/"
+  },
+  "dependencies": {},
+  "description": "",
+  "devDependencies": {
+    "@nuxt/eslint-config": "^0.1.1",
+    "edge-sitemap": "workspace:*",
+    "nuxt": "^3.2.2"
+  },
+  "license": "MIT",
+  "name": "@edge-sitemap-examples/nuxt",
+  "private": true,
+  "repository": {
+    "directory": "examples/nuxt",
+    "type": "git",
+    "url": "https://github.com/ykzts/edge-sitemap.git"
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "lint": "eslint .",
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview"
+  },
+  "version": "1.0.0"
+}

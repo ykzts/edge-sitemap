@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic use case 1`] = `Promise {}`;
+
+exports[`pretty results 1`] = `Promise {}`;
