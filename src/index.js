@@ -4,8 +4,8 @@
 
 /**
  * @typedef {Object} SitemapItem
- * @property {SitemapChangeFreq} changefreq
- * @property {`${number}-${number}-${number}`} lastmod
+ * @property {SitemapChangeFreq=} changefreq
+ * @property {`${number}-${number}-${number}`=} lastmod
  * @property {(URL|string)} loc
  * @property {number=} priority
  */
@@ -28,9 +28,14 @@ export class SitemapTransformer {
   #indent
 
   /**
-   * @param {SitemapStreamOptions=} options
+   * @param {SitemapTransformerOptions=} options
    */
-  constructor({ baseURL, pretty = false } = {}) {
+  constructor(
+    /** @todo https://github.com/microsoft/TypeScript/pull/52880 */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { baseURL, pretty = false } = {}
+  ) {
     this.#baseURL = baseURL
     this.#lf = pretty ? '\n' : ''
     this.#indent = pretty ? '  ' : ''
@@ -108,7 +113,12 @@ export class SitemapStream extends TransformStream {
   /**
    * @param {SitemapStreamOptions=} options
    */
-  constructor({ baseURL, pretty = false } = {}) {
+  constructor(
+    /** @todo https://github.com/microsoft/TypeScript/pull/52880 */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { baseURL, pretty = false } = {}
+  ) {
     super(new SitemapTransformer({ baseURL, pretty }))
   }
 }

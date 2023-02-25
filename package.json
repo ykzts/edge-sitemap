@@ -38,6 +38,7 @@
     "url": "https://github.com/ykzts/edge-sitemap.git"
   },
   "scripts": {
+    "build": "tsc",
     "format": "prettier -w .",
     "lint": "eslint src",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest src"

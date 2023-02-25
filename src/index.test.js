@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { SitemapStream } from '.'
+import { SitemapStream } from './index.js'
 
 /**
  * @param {import('.').SitemapItem[]} sitemapItems
