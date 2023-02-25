@@ -1,26 +1,26 @@
 /**
- * @typedef {('always'|'daily'|'hourly'|'monthly'|'never'|'weekly'|'yearly')} SitemapChangeFreq
+ * @typedef {'always' | 'daily' | 'hourly' | 'monthly' | 'never' | 'weekly' | 'yearly'} SitemapChangeFreq
  */
 
 /**
  * @typedef {Object} SitemapItem
- * @property {SitemapChangeFreq=} changefreq
- * @property {`${number}-${number}-${number}`=} lastmod
+ * @property {SitemapChangeFreq} [changefreq]
+ * @property {`${number}-${number}-${number}`} [lastmod]
  * @property {(URL|string)} loc
- * @property {number=} priority
+ * @property {number} [priority]
  */
 
 /**
  * @typedef {Object} SitemapTransformerOptions
- * @property {(URL|string)=} baseURL
- * @property {boolean=} pretty
+ * @property {URL | string} [baseURL]
+ * @property {boolean} [pretty]
  */
 
 /**
  * @implements {Transformer<SitemapItem, string>}
  */
 export class SitemapTransformer {
-  /** @type {(URL|string)=} */
+  /** @type {URL | string | undefined} */
   #baseURL
   /** @type {string} */
   #lf
@@ -28,7 +28,7 @@ export class SitemapTransformer {
   #indent
 
   /**
-   * @param {SitemapTransformerOptions=} options
+   * @param {SitemapTransformerOptions} [options]
    */
   constructor(
     /** @todo https://github.com/microsoft/TypeScript/pull/52880 */
@@ -102,8 +102,8 @@ export class SitemapTransformer {
 
 /**
  * @typedef {Object} SitemapStreamOptions
- * @property {(URL|string)=} baseURL
- * @property {boolean=} pretty
+ * @property {URL | string} [baseURL]
+ * @property {boolean} [pretty]
  */
 
 /**
@@ -111,7 +111,7 @@ export class SitemapTransformer {
  */
 export class SitemapStream extends TransformStream {
   /**
-   * @param {SitemapStreamOptions=} options
+   * @param {SitemapStreamOptions} [options]
    */
   constructor(
     /** @todo https://github.com/microsoft/TypeScript/pull/52880 */

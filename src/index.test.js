@@ -4,6 +4,7 @@ import { SitemapStream } from './index.js'
 /**
  * @param {import('.').SitemapItem[]} sitemapItems
  * @param {WritableStream<import('.').SitemapItem>} writableStream
+ * @returns {Promise<void>}
  */
 async function writeSitemapItems(sitemapItems, writableStream) {
   const writer = writableStream.getWriter()
@@ -19,6 +20,7 @@ async function writeSitemapItems(sitemapItems, writableStream) {
 
 /**
  * @param {ReadableStream<string>} readableStream
+ * @returns {Promise<string>}
  */
 async function readableStreamToString(readableStream) {
   const reader = readableStream.getReader()
