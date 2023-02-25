@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "module": "Node16",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2022"
+  },
+  "exclude": ["./src/**/*.d.ts", "./src/**/*.test.js"],
+  "include": ["./src/**/*"]
+}
