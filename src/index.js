@@ -107,9 +107,12 @@ export class SitemapTransformer {
  */
 
 /**
- * @extends {TransformStream<SitemapItem, string>}
+ * @implements {TransformStream<SitemapItem, string>}
  */
-export class SitemapStream extends TransformStream {
+export class SitemapStream {
+  /** @type {TransformStream<SitemapItem, string>} */
+  #transformStream
+
   /**
    * @param {SitemapStreamOptions} [options]
    */
@@ -119,6 +122,22 @@ export class SitemapStream extends TransformStream {
     // @ts-ignore
     { baseURL, pretty = false } = {}
   ) {
-    super(new SitemapTransformer({ baseURL, pretty }))
+    this.#transformStream = new TransformStream(
+      new SitemapTransformer({ baseURL, pretty })
+    )
+  }
+
+  /**
+   * @returns {ReadableStream<string>}
+   */
+  get readable() {
+    return this.#transformStream.readable
+  }
+
+  /**
+   * @returns {WritableStream<SitemapItem>}
+   */
+  get writable() {
+    return this.#transformStream.writable
   }
 }
