@@ -41,6 +41,13 @@ export class SitemapTransformer {
     this.#indent = pretty ? '  ' : ''
   }
 
+  /**
+   * @returns {string}
+   */
+  get [Symbol.toStringTag]() {
+    return 'SitemapTransformer'
+  }
+
   /** @type {TransformerFlushCallback<string>} */
   flush(controller) {
     controller.enqueue(`</urlset>${this.#lf}`)
@@ -125,6 +132,13 @@ export class SitemapStream {
     this.#transformStream = new TransformStream(
       new SitemapTransformer({ baseURL, pretty })
     )
+  }
+
+  /**
+   * @returns {string}
+   */
+  get [Symbol.toStringTag]() {
+    return 'SitemapStream'
   }
 
   /**
