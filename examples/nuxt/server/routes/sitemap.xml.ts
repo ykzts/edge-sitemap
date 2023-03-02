@@ -16,6 +16,18 @@ const sitemapItems: SitemapItem[] = [
   },
 ]
 
+function createReadableStream(): ReadableStream<SitemapItem> {
+  return new ReadableStream<SitemapItem>({
+    start(controller) {
+      for (const sitemapItem of sitemapItems) {
+        controller.enqueue(sitemapItem)
+      }
+
+      controller.close()
+    },
+  })
+}
+
 async function pump<T>(
   reader: ReadableStreamDefaultReader<T>,
   stream: Writable
@@ -33,24 +45,13 @@ async function pump<T>(
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
-  const pretty = (
-    Array.isArray(query.pretty) ? query.pretty : [query.pretty]
-  )[0]
-  const { readable: smReadable, writable: smWritable } = new SitemapStream({
-    baseURL: 'https://example.com/',
-    pretty: !!pretty && ['1', 'true'].includes(pretty),
-  })
-  const writer = smWritable.getWriter()
+  const baseURL = 'https://example.com/'
+  const pretty = ['1', 'true'].includes(
+    (Array.isArray(query.pretty) ? query.pretty : [query.pretty])[0] ?? '0'
+  )
+  const readableStream = createReadableStream().pipeThrough(
+    new SitemapStream({ baseURL, pretty })
+  )
 
-  ;(async () => {
-    await writer.ready
-
-    await Promise.all(
-      sitemapItems.map((sitemapItem) => writer.write(sitemapItem))
-    )
-
-    await writer.close()
-  })()
-
-  await pump(smReadable.getReader(), event.node.res)
+  await pump(readableStream.getReader(), event.node.res)
 })

@@ -13,10 +13,10 @@
     "wrangler": "^2.11.1"
   },
   "license": "MIT",
-  "name": "@edge-sitemap-examples/cloudflare-workers",
+  "name": "@edge-sitemap-examples/wrangler",
   "private": true,
   "repository": {
-    "directory": "examples/cloudflare-workers",
+    "directory": "examples/wrangler",
     "type": "git",
     "url": "https://github.com/ykzts/edge-sitemap.git"
   },
