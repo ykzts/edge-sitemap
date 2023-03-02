@@ -16,24 +16,27 @@ const sitemapItems: SitemapItem[] = [
   },
 ]
 
-export function GET(req: NextRequest) {
-  const pretty = req.nextUrl.searchParams.get('pretty')
-  const { readable: smReadable, writable: smWritable } = new SitemapStream({
-    baseURL: 'https://example.com/',
-    pretty: !!pretty && ['1', 'true'].includes(pretty),
+function createReadableStream(): ReadableStream<SitemapItem> {
+  return new ReadableStream<SitemapItem>({
+    start(controller) {
+      for (const sitemapItem of sitemapItems) {
+        controller.enqueue(sitemapItem)
+      }
+
+      controller.close()
+    },
   })
-  const body = smReadable.pipeThrough(new TextEncoderStream())
-  const writer = smWritable.getWriter()
+}
 
-  ;(async () => {
-    await writer.ready
-
-    await Promise.all(
-      sitemapItems.map((sitemapItem) => writer.write(sitemapItem))
-    )
-
-    await writer.close()
-  })()
+export function GET(req: NextRequest) {
+  const { searchParams } = req.nextUrl
+  const baseURL = 'https://example.com/'
+  const pretty =
+    searchParams.has('pretty') &&
+    ['1', 'true'].includes(searchParams.get('pretty') ?? '0')
+  const body = createReadableStream()
+    .pipeThrough(new SitemapStream({ baseURL, pretty }))
+    .pipeThrough(new TextEncoderStream())
 
   return new NextResponse(body, {
     headers: {
