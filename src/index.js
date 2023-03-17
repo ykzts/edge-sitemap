@@ -30,12 +30,7 @@ export class SitemapTransformer {
   /**
    * @param {SitemapTransformerOptions} [options]
    */
-  constructor(
-    /** @todo https://github.com/microsoft/TypeScript/pull/52880 */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { baseURL, pretty = false } = {}
-  ) {
+  constructor({ baseURL, pretty = false } = {}) {
     this.#baseURL = baseURL
     this.#lf = pretty ? '\n' : ''
     this.#indent = pretty ? '  ' : ''
@@ -123,12 +118,7 @@ export class SitemapStream {
   /**
    * @param {SitemapStreamOptions} [options]
    */
-  constructor(
-    /** @todo https://github.com/microsoft/TypeScript/pull/52880 */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    { baseURL, pretty = false } = {}
-  ) {
+  constructor({ baseURL, pretty = false } = {}) {
     this.#transformStream = new TransformStream(
       new SitemapTransformer({ baseURL, pretty })
     )
