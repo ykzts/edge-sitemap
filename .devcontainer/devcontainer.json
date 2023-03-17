@@ -6,7 +6,9 @@
         "EditorConfig.EditorConfig",
         "esbenp.prettier-vscode"
       ],
-      "settings": {}
+      "settings": {
+        "typescript.tsdk": "node_modules/typescript/lib"
+      }
     }
   },
   "forwardPorts": [3000],
